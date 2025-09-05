@@ -177,7 +177,7 @@ class JSONFormatter {
         document.querySelectorAll('.json-collapsible').forEach(element => {
             const icon = element.querySelector('.collapse-icon');
             const children = element.querySelector('.json-children');
-            if (!children) return;
+            if (!children || !icon) return;
 
             // 初始状态
             if (this.collapsedState.has(element.dataset.path)) {
@@ -188,8 +188,9 @@ class JSONFormatter {
                 icon.textContent = '▼';
             }
 
-            element.addEventListener('click', (e) => {
-                e.stopPropagation();
+            // 只给 icon 绑定事件
+            icon.addEventListener('click', (e) => {
+                e.stopPropagation();  // 阻止冒泡
                 const path = element.dataset.path;
                 if (this.collapsedState.has(path)) {
                     this.collapsedState.delete(path);
@@ -203,6 +204,7 @@ class JSONFormatter {
             });
         });
     }
+
 
 
     getValueByPath(data, path) {
