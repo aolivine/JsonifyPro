@@ -169,3 +169,51 @@ textarea#json-input {
 .btn-secondary:hover { background: #5a6268; }
 .btn-success { background: #28a745; color: white; }
 .btn-success:hover { background: #218838; }
+
+
+/* 行号样式 */
+.line-number-wrapper {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 600px;
+}
+
+.line-numbers {
+    user-select: none;
+    text-align: right;
+    padding: 15px 10px;
+    background: #f0f0f0;
+    border-right: 1px solid #e9ecef;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #888;
+    overflow: hidden;
+}
+
+.line-number-wrapper textarea,
+.line-number-wrapper .json-display {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    resize: none;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow: auto;
+}
+
+/* 保留原有样式 */
+textarea#json-input {
+    height: 100%;
+    border: 0;
+    outline: none;
+}
+
+.json-display {
+    height: 100%;
+    border: 0;
+    outline: none;
+    background: #f8f9fa;
+}

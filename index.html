@@ -31,9 +31,15 @@
                         <button id="format-btn" class="btn btn-primary">
                             <i class="fas fa-magic"></i> 格式化
                         </button>
+                        <button id="toggle-line-num-btn" class="btn btn-secondary">
+                            <i class="fas fa-list-ol"></i> 行号
+                        </button>
                     </div>
                 </div>
-                <textarea id="json-input" placeholder="请输入JSON字符串..."></textarea>
+                <div class="line-number-wrapper">
+                    <div class="line-numbers" id="input-line-numbers"></div>
+                    <textarea id="json-input" placeholder="请输入JSON字符串..."></textarea>
+                </div>
             </div>
 
             <div class="output-section">
@@ -51,7 +57,10 @@
                         </button>
                     </div>
                 </div>
-                <div id="json-output" class="json-display"></div>
+                <div class="line-number-wrapper">
+                    <div class="line-numbers" id="output-line-numbers"></div>
+                    <div id="json-output" class="json-display"></div>
+                </div>
             </div>
         </div>
 

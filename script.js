@@ -2,45 +2,45 @@ class JSONFormatter {
     constructor() {
         this.collapsedState = new Set();
         this.currentData = null;
+        this.showLineNumbers = true;
         this.init();
     }
 
     init() {
         this.bindEvents(); 
-        // 页面加载时聚焦输入框
         const input = document.getElementById('json-input');
         if (input) input.focus();
+        this.updateInputLineNumbers();
+        this.updateOutputLineNumbers();
     }
 
     bindEvents() {
         const inputBox = document.getElementById('json-input');
 
-        document.getElementById('format-btn').addEventListener('click', () => this.formatJSON());
+        document.getElementById('format-btn').addEventListener('click', () => { 
+            this.formatJSON();
+        });
         document.getElementById('clear-btn').addEventListener('click', () => this.clearInput());
         document.getElementById('example-btn').addEventListener('click', () => this.loadExample());
         document.getElementById('compress-btn').addEventListener('click', () => this.compressJSON());
         document.getElementById('copy-btn').addEventListener('click', () => this.copyOutput());
         document.getElementById('expand-all-btn').addEventListener('click', () => this.expandAll());
         document.getElementById('collapse-all-btn').addEventListener('click', () => this.collapseAll());
-
-        document.addEventListener('keydown', (e) => this.handleShortcuts(e));
-        inputBox.addEventListener('input', (e) => {
-            this.validateJSON(e.target.value);
+        document.getElementById('toggle-line-num-btn').addEventListener('click', () => {
+            this.showLineNumbers = !this.showLineNumbers;
+            document.getElementById('input-line-numbers').style.display = this.showLineNumbers ? 'block' : 'none';
+            document.getElementById('output-line-numbers').style.display = this.showLineNumbers ? 'block' : 'none';
         });
 
-        // 自动格式化粘贴内容
-        inputBox.addEventListener('paste', () => {
-            setTimeout(() => {
-                const text = inputBox.value.trim();
-                if (!text) return;
-                try {
-                    this.currentData = JSON.parse(text);
-                    this.renderFullJSON();
-                } catch (e) {
-                    document.getElementById('json-output').innerHTML =
-                        `<span style="color:red;">JSON 格式错误: ${e.message}</span>`;
-                }
-            }, 50); // 确保粘贴完成
+        document.addEventListener('keydown', (e) => this.handleShortcuts(e));
+
+        inputBox.addEventListener('input', (e) => {
+            this.validateJSON(e.target.value);
+            this.updateInputLineNumbers();
+        });
+
+        inputBox.addEventListener('scroll', () => {
+            document.getElementById('input-line-numbers').scrollTop = inputBox.scrollTop;
         });
     }
 
@@ -92,6 +92,7 @@ class JSONFormatter {
         const formatted = this.formatWithCollapse(this.currentData);
         output.innerHTML = formatted;
         this.attachCollapseEvents();
+        this.updateOutputLineNumbers();
     }
 
     formatWithCollapse(data, path = '') {
@@ -179,7 +180,6 @@ class JSONFormatter {
             const children = element.querySelector('.json-children');
             if (!children || !icon) return;
 
-            // 初始状态
             if (this.collapsedState.has(element.dataset.path)) {
                 children.style.display = 'none';
                 icon.textContent = '▶';
@@ -188,9 +188,8 @@ class JSONFormatter {
                 icon.textContent = '▼';
             }
 
-            // 只给 icon 绑定事件
             icon.addEventListener('click', (e) => {
-                e.stopPropagation();  // 阻止冒泡
+                e.stopPropagation();
                 const path = element.dataset.path;
                 if (this.collapsedState.has(path)) {
                     this.collapsedState.delete(path);
@@ -201,11 +200,10 @@ class JSONFormatter {
                     children.style.display = 'none';
                     icon.textContent = '▶';
                 }
+                this.updateOutputLineNumbers();
             });
         });
     }
-
-
 
     getValueByPath(data, path) {
         if (!path) return data;
@@ -261,6 +259,7 @@ class JSONFormatter {
         try {
             const parsed = JSON.parse(input);
             document.getElementById('json-input').value = JSON.stringify(parsed);
+            this.updateInputLineNumbers();
             this.showToast('JSON已压缩');
         } catch (error) {
             this.showToast('JSON解析错误', 'error');
@@ -283,6 +282,8 @@ class JSONFormatter {
         document.getElementById('json-output').innerHTML = '';
         this.collapsedState.clear();
         this.currentData = null;
+        this.updateInputLineNumbers();
+        this.updateOutputLineNumbers();
         this.showToast('已清空输入');
     }
 
@@ -330,6 +331,7 @@ class JSONFormatter {
   }
 }`;
         document.getElementById('json-input').value = example;
+        this.updateInputLineNumbers();
         this.showToast('已加载示例JSON');
     }
 
@@ -343,9 +345,22 @@ class JSONFormatter {
             toast.classList.remove('show');
         }, 3000);
     }
+
+    updateInputLineNumbers() {
+        const input = document.getElementById('json-input');
+        const lines = input.value.split('\n').length;
+        const lineNumbersEl = document.getElementById('input-line-numbers');
+        lineNumbersEl.innerHTML = Array.from({length: lines}, (_, i) => i + 1).join('<br>');
+    }
+
+    updateOutputLineNumbers() {
+        const output = document.getElementById('json-output');
+        const lines = output.innerText.split('\n').length;
+        const lineNumbersEl = document.getElementById('output-line-numbers');
+        lineNumbersEl.innerHTML = Array.from({length: lines}, (_, i) => i + 1).join('<br>');
+    }
 }
 
-// 初始化应用
 document.addEventListener('DOMContentLoaded', () => {
     new JSONFormatter();
 });
