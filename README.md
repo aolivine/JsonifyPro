@@ -1,33 +1,30 @@
-JSON Formatting Tool
+# JSON Formatting Tool
+
 A local JSON formatting tool similar to json.cn, supporting syntax highlighting, folding and expanding, validation, and more.
 
-Features
-✅ JSON formatting and beautification
+## Features
+- ✅ JSON formatting and beautification
+- ✅ Syntax highlighting
+- ✅ Collapse/expand functionality
+- ✅ JSON validation and error reporting
+- ✅ Compression and escaping functions
+- ✅ Local operation, ensuring data security
+- ✅ Responsive design
+- ✅ Shortcut key support
+- ✅ Line numbers display for input and output JSON
+- ✅ Select a key and copy its JSON subtree** (copy selected node feature)
 
-✅ Syntax highlighting
+## Installation and Usage
 
-✅ Collapse/expand functionality
+### Direct Open (Recommended)
+1. Download all files to the same directory
+2. Open `index.html` in your browser or access it via `http://localhost/index.html`
 
-✅ JSON validation and error reporting
-
-✅ Compression and escaping functions
-
-✅ Local operation, ensuring data security
-
-✅ Responsive design
-
-✅ Shortcut key support
-
-Installation and Usage
-Direct Open (Recommended)
-Download all files to the same directory
-
-Open index.html in your browser or access it via http://localhost/index.html
-
-Project Image
+## Project Image
 
 ![项目示例图片](./images/example.jpg)
 
+---
 
 # JSON格式化工具
 
@@ -43,16 +40,15 @@ Project Image
 - ✅ 本地运行，数据安全
 - ✅ 响应式设计
 - ✅ 快捷键支持
+- ✅ 显示行号（输入框和输出框）
+- ✅ 选中Key并复制该节点内容**（复制选中片段功能）
 
 ## 安装和使用
 
-###  直接打开（推荐）
+### 直接打开（推荐）
 1. 下载所有文件到同一目录
 2. 访问 `http://localhost/index.html` 在浏览器中打开
-
 
 ## 项目图片
 
 ![项目示例图片](./images/example.jpg)
-
- 
