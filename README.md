@@ -20,5 +20,8 @@
 2. 访问 `http://localhost/index.html` 在浏览器中打开
 
 
+## 项目图片
+
+![项目示例图片](./images/example.jpg)
 
  
