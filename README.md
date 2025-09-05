@@ -1,3 +1,34 @@
+JSON Formatting Tool
+A local JSON formatting tool similar to json.cn, supporting syntax highlighting, folding and expanding, validation, and more.
+
+Features
+✅ JSON formatting and beautification
+
+✅ Syntax highlighting
+
+✅ Collapse/expand functionality
+
+✅ JSON validation and error reporting
+
+✅ Compression and escaping functions
+
+✅ Local operation, ensuring data security
+
+✅ Responsive design
+
+✅ Shortcut key support
+
+Installation and Usage
+Direct Open (Recommended)
+Download all files to the same directory
+
+Open index.html in your browser or access it via http://localhost/index.html
+
+Project Image
+
+![项目示例图片](./images/example.jpg)
+
+
 # JSON格式化工具
 
 一个类似 json.cn 的本地JSON格式化工具，支持语法高亮、折叠展开、验证等功能。
