@@ -162,7 +162,9 @@ textarea#json-input {
 .toast.error { background: #dc3545; }
 
 /* 按钮 */
-.btn { padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 5px; }
+.btn { padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; display: flex; align-items: center;justify-content: center;  gap: 5px; }
+
+
 .btn-primary { background: #4facfe; color: white; }
 .btn-primary:hover { background: #3ba1fd; transform: translateY(-1px); }
 .btn-secondary { background: #6c757d; color: white; }
@@ -203,17 +205,11 @@ textarea#json-input {
     line-height: 1.5;
     overflow: auto;
 }
+ 
 
-/* 保留原有样式 */
-textarea#json-input {
-    height: 100%;
-    border: 0;
-    outline: none;
-}
-
-.json-display {
-    height: 100%;
-    border: 0;
-    outline: none;
-    background: #f8f9fa;
+/* 选中 key 的样式 */
+.json-key.selected {
+    background: #fffa90;
+    border-radius: 3px;
+    padding: 0 2px;
 }

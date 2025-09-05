@@ -3,6 +3,7 @@ class JSONFormatter {
         this.collapsedState = new Set();
         this.currentData = null;
         this.showLineNumbers = true;
+        this.selectedPath = null; // 当前选中 key
         this.init();
     }
 
@@ -19,6 +20,7 @@ class JSONFormatter {
 
         document.getElementById('format-btn').addEventListener('click', () => { 
             this.formatJSON();
+            this.updateOutputLineNumbers();
         });
         document.getElementById('clear-btn').addEventListener('click', () => this.clearInput());
         document.getElementById('example-btn').addEventListener('click', () => this.loadExample());
@@ -31,6 +33,7 @@ class JSONFormatter {
             document.getElementById('input-line-numbers').style.display = this.showLineNumbers ? 'block' : 'none';
             document.getElementById('output-line-numbers').style.display = this.showLineNumbers ? 'block' : 'none';
         });
+        document.getElementById('copy-node-btn').addEventListener('click', () => this.copySelectedNode());
 
         document.addEventListener('keydown', (e) => this.handleShortcuts(e));
 
@@ -42,6 +45,21 @@ class JSONFormatter {
         inputBox.addEventListener('scroll', () => {
             document.getElementById('input-line-numbers').scrollTop = inputBox.scrollTop;
         });
+    }
+
+    /* ---------- 行号 ---------- */
+    updateInputLineNumbers() {
+        const input = document.getElementById('json-input');
+        const lines = input.value.split('\n').length;
+        const lineNumbersEl = document.getElementById('input-line-numbers');
+        lineNumbersEl.innerHTML = Array.from({length: lines}, (_, i) => i + 1).join('<br>');
+    }
+
+    updateOutputLineNumbers() {
+        const output = document.getElementById('json-output');
+        const lines = output.innerText.split('\n').length;
+        const lineNumbersEl = document.getElementById('output-line-numbers');
+        lineNumbersEl.innerHTML = Array.from({length: lines}, (_, i) => i + 1).join('<br>');
     }
 
     handleShortcuts(e) {
@@ -81,6 +99,7 @@ class JSONFormatter {
         try {
             this.currentData = JSON.parse(input);
             this.renderFullJSON();
+            this.updateOutputLineNumbers();
         } catch (error) {
             output.innerHTML = `<div class="error-message">JSON解析错误: ${error.message}</div>`;
         }
@@ -92,7 +111,6 @@ class JSONFormatter {
         const formatted = this.formatWithCollapse(this.currentData);
         output.innerHTML = formatted;
         this.attachCollapseEvents();
-        this.updateOutputLineNumbers();
     }
 
     formatWithCollapse(data, path = '') {
@@ -127,7 +145,7 @@ class JSONFormatter {
                 
                 html += `<div class="json-item">`;
                 if (!isArray) {
-                    html += `<span class="json-key">"${this.escapeHtml(key)}"</span>: `;
+                    html += `<span class="json-key" data-path="${newPath}">"${this.escapeHtml(key)}"</span>: `;
                 }
                 html += this.formatWithCollapse(value, newPath);
                 if (index < items.length - 1) {
@@ -200,9 +218,42 @@ class JSONFormatter {
                     children.style.display = 'none';
                     icon.textContent = '▶';
                 }
-                this.updateOutputLineNumbers();
             });
         });
+
+        // 点击 key 高亮选中
+        document.querySelectorAll('.json-key').forEach(keyEl => {
+            keyEl.style.cursor = 'pointer';
+            keyEl.addEventListener('click', (e) => {
+                e.stopPropagation();
+                document.querySelectorAll('.json-key').forEach(k => k.classList.remove('selected'));
+                keyEl.classList.add('selected');
+                this.selectedPath = this.getPathFromElement(keyEl);
+            });
+        });
+    }
+
+    getPathFromElement(el) {
+        let parent = el.parentElement;
+        while (parent && !parent.classList.contains('json-collapsible')) {
+            parent = parent.parentElement;
+        }
+        return parent ? parent.dataset.path : null;
+    }
+
+    copySelectedNode() {
+        if (!this.selectedPath || !this.currentData) {
+            this.showToast('请先选择一个 key', 'error');
+            return;
+        }
+        const value = this.getValueByPath(this.currentData, this.selectedPath);
+        if (value === undefined) {
+            this.showToast('节点不存在', 'error');
+            return;
+        }
+        navigator.clipboard.writeText(JSON.stringify(value, null, 2))
+            .then(() => this.showToast('已复制选中节点'))
+            .catch(() => this.showToast('复制失败', 'error'));
     }
 
     getValueByPath(data, path) {
@@ -259,8 +310,8 @@ class JSONFormatter {
         try {
             const parsed = JSON.parse(input);
             document.getElementById('json-input').value = JSON.stringify(parsed);
-            this.updateInputLineNumbers();
             this.showToast('JSON已压缩');
+            this.updateInputLineNumbers();
         } catch (error) {
             this.showToast('JSON解析错误', 'error');
         }
@@ -282,6 +333,7 @@ class JSONFormatter {
         document.getElementById('json-output').innerHTML = '';
         this.collapsedState.clear();
         this.currentData = null;
+        this.selectedPath = null;
         this.updateInputLineNumbers();
         this.updateOutputLineNumbers();
         this.showToast('已清空输入');
@@ -330,9 +382,8 @@ class JSONFormatter {
     }
   }
 }`;
-        document.getElementById('json-input').value = example;
+        document.getElementById('json-input').value = example; 
         this.updateInputLineNumbers();
-        this.showToast('已加载示例JSON');
     }
 
     showToast(message, type = 'success') {
@@ -344,20 +395,6 @@ class JSONFormatter {
         setTimeout(() => {
             toast.classList.remove('show');
         }, 3000);
-    }
-
-    updateInputLineNumbers() {
-        const input = document.getElementById('json-input');
-        const lines = input.value.split('\n').length;
-        const lineNumbersEl = document.getElementById('input-line-numbers');
-        lineNumbersEl.innerHTML = Array.from({length: lines}, (_, i) => i + 1).join('<br>');
-    }
-
-    updateOutputLineNumbers() {
-        const output = document.getElementById('json-output');
-        const lines = output.innerText.split('\n').length;
-        const lineNumbersEl = document.getElementById('output-line-numbers');
-        lineNumbersEl.innerHTML = Array.from({length: lines}, (_, i) => i + 1).join('<br>');
     }
 }
 
