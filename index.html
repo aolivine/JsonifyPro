@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON格式化工具 - 本地版</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-code"></i> JSON格式化工具</h1>
+            <p>在线JSON格式化、验证和解析工具</p>
+        </header>
+
+        <div class="main-content">
+            <div class="input-section">
+                <div class="section-header">
+                    <h3>输入JSON</h3>
+                    <div class="tools">
+                        <button id="clear-btn" class="btn btn-secondary">
+                            <i class="fas fa-trash"></i> 清空
+                        </button>
+                        <button id="example-btn" class="btn btn-secondary">
+                            <i class="fas fa-lightbulb"></i> 示例
+                        </button>
+                        <button id="compress-btn" class="btn btn-secondary">
+                            <i class="fas fa-compress"></i> 压缩
+                        </button>
+                        <button id="format-btn" class="btn btn-primary">
+                            <i class="fas fa-magic"></i> 格式化
+                        </button>
+                    </div>
+                </div>
+                <textarea id="json-input" placeholder="请输入JSON字符串..."></textarea>
+            </div>
+
+            <div class="output-section">
+                <div class="section-header">
+                    <h3>格式化结果</h3>
+                    <div class="tools">
+                        <button id="copy-btn" class="btn btn-success">
+                            <i class="fas fa-copy"></i> 复制
+                        </button>
+                        <button id="expand-all-btn" class="btn btn-secondary">
+                            <i class="fas fa-expand"></i> 展开全部
+                        </button>
+                        <button id="collapse-all-btn" class="btn btn-secondary">
+                            <i class="fas fa-compress"></i> 折叠全部
+                        </button>
+                    </div>
+                </div>
+                <div id="json-output" class="json-display"></div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-card">
+                <h4><i class="fas fa-info-circle"></i> 功能特性</h4>
+                <ul>
+                    <li>JSON格式化和美化</li>
+                    <li>JSON验证和错误提示</li>
+                    <li>语法高亮显示</li>
+                    <li>折叠/展开功能</li>
+                    <li>压缩和转义功能</li>
+                    <li>本地运行，数据安全</li>
+                </ul>
+            </div>
+            
+            <div class="info-card">
+                <h4><i class="fas fa-keyboard"></i> 快捷键</h4>
+                <ul>
+                    <li>Ctrl+Enter: 格式化JSON</li>
+                    <li>Ctrl+D: 清空输入</li>
+                    <li>Ctrl+C: 复制结果</li>
+                    <li>Ctrl+E: 展开全部</li>
+                    <li>Ctrl+R: 折叠全部</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

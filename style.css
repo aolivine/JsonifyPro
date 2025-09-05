@@ -1,0 +1,171 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+    background: white;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+    padding: 15px 30px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 1.8em;
+    margin-bottom: 5px;
+}
+
+header p {
+    opacity: 0.9;
+    font-size: 1em;
+}
+
+/* 主内容区域 */
+.main-content {
+    display: flex;
+    width: 100%;
+    gap: 0;
+}
+
+/* 输入和输出区域 */
+.input-section,
+.output-section {
+    width: 50%;           /* 左右各占50% */
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 区块标题 */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.section-header h3 {
+    color: #333;
+    font-size: 1.1em;
+}
+
+.tools {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+/* 文本框固定高度 */
+textarea#json-input {
+    width: 100%;
+    height: 600px;       /* 固定高度 */
+    padding: 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 14px;
+    resize: none;        /* 禁止拖拽改变大小 */
+}
+
+/* 输出框固定高度+垂直滚动 */
+.json-display {
+    width: 100%;
+    height: 600px;       /* 固定高度 */
+    padding: 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    background: #f8f9fa;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-y: auto;    /* 超出内容显示滚动条 */
+}
+
+/* 底部信息区域 */ 
+.info-section {
+    padding: 20px 30px;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    height: 150px;          /* 整个区域固定高度，可按需调整 */
+    overflow-y: auto;       /* 内容超出出现滚动条 */
+}
+
+/* info-card 高度也减半并可滚动 */
+.info-card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    flex: 1;
+    min-width: 200px;
+    max-height: 100%;       /* 不超过父容器高度 */
+    overflow-y: auto;       /* 超出部分出现滚动条 */
+}
+
+
+.info-card h4 {
+    color: #4facfe;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* JSON 样式 */
+.json-key { color: #881391; font-weight: 600; }
+.json-string { color: #c41a16; }
+.json-number { color: #1c00cf; }
+.json-boolean { color: #0d22aa; }
+.json-null { color: #808080; }
+.json-collapsible { cursor: pointer; user-select: none; }
+.json-collapsed { color: #888; font-style: italic; margin: 0 4px; }
+.collapse-icon { margin-right: 5px; font-size: 12px; transition: transform 0.3s ease; }
+.collapsed .collapse-icon { transform: rotate(-90deg); }
+.json-children { margin-left: 20px; border-left: 1px dashed #e0e0e0; padding-left: 10px; }
+.json-item { margin: 2px 0; }
+
+/* Toast 提示 */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    background: #28a745;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+.toast.show { transform: translateX(0); }
+.toast.error { background: #dc3545; }
+
+/* 按钮 */
+.btn { padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 5px; }
+.btn-primary { background: #4facfe; color: white; }
+.btn-primary:hover { background: #3ba1fd; transform: translateY(-1px); }
+.btn-secondary { background: #6c757d; color: white; }
+.btn-secondary:hover { background: #5a6268; }
+.btn-success { background: #28a745; color: white; }
+.btn-success:hover { background: #218838; }
